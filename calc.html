@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://kit.fontawesome.com/27b4e59bfc.js" crossorigin="anonymous"></script>
+    <style>
+        #app {
+            width: 40%;
+            margin: 0 auto;
+            border: 5px solid black;
+            text-align: center;
+            padding: 5px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            justify-content: center;
+            box-sizing: border-box;
+            gap: 15px;
+        }
+        span {
+            grid-column: 1/4;
+            text-align: right;
+            font-size: 24px;
+            padding-right: 12px;
+            border: 1px solid black;
+            border-radius: 3px;
+        }
+        button {
+            height: 50px;
+            width: 100%;
+            justify-self: center;
+            background-color: white;
+        }
+        .zero {
+            width: 100%;
+            grid-column: 1/4;
+            box-sizing: border-box;
+        }
+        .operator {
+            background-color: orange;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <span>{{current || '0'}}</span>
+        <button class="operator" @click="reduce">-</button>
+        <button class="operator" @click="add">+</button>
+        <button class="operator" @click="calc">=</button>
+        <button class="operator" @click="times">X</button>
+        <button class="operator" @click="divide">/</button>
+        <button class="operator" @click="clear">C</button>
+        <button 
+            v-for="num in 9"
+            :key ="num"
+            @click="append(num)"
+        >
+            {{num}}
+        </button>
+        <button @click="keyin=0" class="zero">0</button>
+        
+    </div>
+    
+
+  
+
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        // console.log(Vue)
+        Vue.createApp({
+            data(){
+                return{
+                    current: '',
+                    previous: null,
+                    operator : null,
+                    operatorClicked: false,
+                }
+            },
+            methods:{
+                append(num){
+                    if(this.operatorClicked){
+                        this.current = '';
+                        this.operatorClicked = false;
+                    }
+                    this.current = `${this.current}${num}`
+                },
+                setPrevious(){
+                    this.previos = this.current;
+                    this.operatorClicked = true;
+                },
+                add(){
+                    this.operator = (a, b) => a+b;
+                    this.setPrevious();
+                },
+                reduce(){
+                    this.operator = (a, b) => a-b;
+                    this.setPrevious();
+                },
+                times(){
+                    this.operator = (a, b) => a*b;
+                    this.setPrevious();
+                },
+                divide(){
+                    this.operator = (a, b) => a/b;
+                    this.setPrevious();
+                },
+                clear(){
+                    this.current = 0
+                },
+                calc(){
+                    this.current = `${this.operator (parseFloat(this.current), parseFloat(this.previos))}`;
+                    this.previos = null;
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>

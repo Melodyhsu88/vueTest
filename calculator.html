@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <button v-for="num in 9"
+            :key = "num"
+            @click = "keyin(num)"
+        >
+            {{num}}
+        </button>
+        <button>0</button>
+        <button @click="reduce">-</button>
+        <button @click="add">+</button>
+        <button @click="calc">=</button>
+        <button @click="clear">C</button>
+    </div>
+    <div>step:{{step}}</div>
+    <h6>result{{result}}</h6>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        Vue.createApp({
+            data(){
+                return{
+                    step: '',
+                    keyin: 0,
+                    result: 0,
+                }
+            },
+            methods: {
+                add(){
+                    this.result += keyin
+                }
+            }
+        })
+    </script>
+</body>
+</html>
